@@ -6,6 +6,6 @@
 * User can pull to refresh the movie list.[DONE]
 
 <img src="https://github.com/abhinavmathur84/assignment1/blob/master/assignment1-part1.gif"/>
-<img src="https://github.com/abhinavmathur84/assignment1/blob/master/assignment1-part2.gif"/">
+<img src="https://github.com/abhinavmathur84/assignment1/blob/master/assignment1-part2.gif"/>
 
 
