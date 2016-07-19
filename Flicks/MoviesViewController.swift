@@ -26,6 +26,9 @@ class MoviesViewController: UIViewController ,UITableViewDelegate, UITableViewDa
         let request = NSURLRequest(URL:url!)
         let session = NSURLSession( configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),delegate:nil,delegateQueue:NSOperationQueue.mainQueue())
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         
         let task:NSURLSessionDataTask = session.dataTaskWithRequest(request) { (dataOrNil, responseOrNil, errorOrNil) in
@@ -36,9 +39,19 @@ class MoviesViewController: UIViewController ,UITableViewDelegate, UITableViewDa
                     self.movies = responseDictionary["results"] as! [NSDictionary]
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
                     self.tableView.reloadData()
+                } else {
+                    self.networkErrorView.hidden = false
                 }
             } else {
                 self.networkErrorView.hidden = false
+            }
+            if let resp = responseOrNil {
+                NSLog("Response:\(resp)")
+                //self.networkErrorView.hidden = false
+            }
+            if let err = errorOrNil {
+                    NSLog("Error\(err.code)")
+            
             }
         }
         task.resume()
@@ -69,6 +82,15 @@ class MoviesViewController: UIViewController ,UITableViewDelegate, UITableViewDa
                     MBProgressHUD.hideHUDForView(self.view, animated: true)
                     self.tableView.reloadData()
                 }
+                if let resp = responseOrNil {
+                    NSLog("Response:\(resp)")
+                    //self.networkErrorView.hidden = false
+                }
+                if let err = errorOrNil {
+                    NSLog("Error\(err.code)")
+                    
+                }
+
             } else {
                 self.networkErrorView.hidden = false
             }
